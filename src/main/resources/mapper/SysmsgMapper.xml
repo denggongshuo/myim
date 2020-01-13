@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pit.myim.dao.SysmsgMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		IM_SYSMSG
+	</sql>
+	
+	<!--个人状态表名 -->
+	<sql id="statetableName">
+		IM_IMSTATE
+	</sql>
+	
+	<!--表名(系统用户) -->
+	<sql id="usertableName">
+		ITSM_SYS_USER
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		f.USERNAME,	
+		f.FROMUSERNAME,	
+		f.CTIME,	
+		f.REMARK,	
+		f.TYPE,	
+		f.CONTENT,	
+		f.ISDONE,	
+		f.DTIME,
+		f.QGROUP_ID,
+		f.DREAD,
+		f.SYSMSG_ID
+	</sql>
+	
+	<!-- 字段用于新增 -->
+	<sql id="Field2">
+		USERNAME,	
+		FROMUSERNAME,	
+		CTIME,	
+		REMARK,	
+		TYPE,	
+		CONTENT,	
+		ISDONE,	
+		DTIME,
+		QGROUP_ID,
+		DREAD,
+		SYSMSG_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{USERNAME},	
+		#{FROMUSERNAME},	
+		#{CTIME},	
+		#{REMARK},	
+		#{TYPE},	
+		#{CONTENT},	
+		#{ISDONE},	
+		#{DTIME},
+		#{QGROUP_ID},
+		#{DREAD},
+		#{SYSMSG_ID}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="com.pit.myim.entity.PageData">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field2"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="com.pit.myim.entity.PageData">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			SYSMSG_ID = #{SYSMSG_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="com.pit.myim.entity.PageData">
+		update
+		<include refid="tableName"></include>
+		set 
+			CONTENT = #{CONTENT},
+			DTIME = #{DTIME},
+			ISDONE = #{ISDONE}
+		where 
+			SYSMSG_ID = #{SYSMSG_ID}
+	</update>
+	
+	<!-- 设置已读 -->
+	<update id="read" parameterType="com.pit.myim.entity.PageData">
+		update
+		<include refid="tableName"></include>
+		set 
+			DREAD = '1'
+		where 
+			USERNAME = #{USERNAME}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="com.pit.myim.entity.PageData" resultType="com.pit.myim.entity.PageData">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include> f
+		where 
+			f.SYSMSG_ID = #{SYSMSG_ID}
+	</select>
+	
+	<!-- 获取未读总数 -->
+	<select id="getMsgCount" parameterType="com.pit.myim.entity.PageData" resultType="com.pit.myim.entity.PageData">
+		select 
+			count(SYSMSG_ID) msgCount
+		from 
+		<include refid="tableName"></include>
+		where 
+			DREAD = '0'
+		and
+			USERNAME = #{USERNAME} 
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="com.pit.myim.entity.Page" resultType="com.pit.myim.entity.PageData">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include> f
+		where
+			f.USERNAME = #{pd.USERNAME}
+		and
+			ISDONE = 'yes'
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="com.pit.myim.entity.PageData" resultType="com.pit.myim.entity.PageData">
+		select
+			<include refid="Field"></include>,
+			s.AUTOGRAPH,
+			u.userphoto_url PHOTO2,
+			u.NAME
+		from 
+		<include refid="tableName"></include> f
+		left join
+		<include refid="statetableName"></include> s
+		on
+			f.FROMUSERNAME = s.USERNAME
+		left join
+		<include refid="usertableName"></include> u
+		on
+			f.FROMUSERNAME = u.USERNAME
+		where
+			f.USERNAME = #{USERNAME}
+		order by f.ISDONE, f.CTIME desc 
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			SYSMSG_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+
+</mapper>

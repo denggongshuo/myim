@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="demo">
+    <h2>让 AJAX 更改这段文本</h2>
+    <button type="button" onclick="loadDoc()">更改文本</button>
+</div>
+
+<script>
+    function loadDoc() {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function (ev) {
+            if (this.readyState === 4 && this.status === 200) {
+                document.getElementById("demo").innerHTML = this.responseText;
+            }
+        };
+        httpRequest.open("GET", "ajax_info.txt", true);
+        httpRequest.send();
+    }
+
+</script>
+</body>
+</html>
