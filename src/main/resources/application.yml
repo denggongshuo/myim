@@ -3,9 +3,9 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
-  port: 20000
+  port: 11000
   servlet:
-    context-path: /
+    context-path: /myim
 spring:
   profiles:
     active: dev
@@ -45,6 +45,8 @@ mybatis-plus:
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
 
-
+loginUrl: http://localhost:10087/userlogin
+root_file_path: E:/work
+root_http_img_path: /img/
 
 

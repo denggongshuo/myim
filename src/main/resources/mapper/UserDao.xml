@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pit.system.ucenter.dao.UserDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.pit.myim.entity.UserEntity" id="userMap">
+        <result property="userId" column="user_id"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="username" column="username"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="sex" column="sex"/>
+        <result property="mobile" column="mobile"/>
+        <result property="tel" column="tel"/>
+        <result property="userphotoUrl" column="userphoto_url"/>
+        <result property="email" column="email"/>
+        <result property="post" column="post"/>
+        <result property="cardId" column="card_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="isEnable" column="is_enable"/>
+        <result property="remark" column="remark"/>
+        <result property="spellName" column="spell_name"/>
+        <result property="createId" column="create_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="workStatus" column="work_status"/>
+    </resultMap>
+
+
+</mapper>

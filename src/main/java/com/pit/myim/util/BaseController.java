@@ -3,12 +3,14 @@ package com.pit.myim.util;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -19,6 +21,7 @@ import java.util.Map;
 public abstract class BaseController {
 
     private final static String JWT_KOKRN = "OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE";
+
 
     public ServletRequestAttributes getRequestAttributes() {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
@@ -47,14 +50,14 @@ public abstract class BaseController {
     //解析jwtToken
     public Map<String, String> parseJwtToken() {
         String jwtToken = getJwtToken();
-        if (null == jwtToken){
+        if (null == jwtToken) {
             return new HashMap<>();
         }
         Map<String, String> map = null;
         try {
             if (StringUtils.isNotEmpty(jwtToken)) {
                 String[] arr = jwtToken.split("\\.");
-                String str = Base64.decodeStr(arr[1],CharsetUtil.UTF_8);
+                String str = Base64.decodeStr(arr[1], CharsetUtil.UTF_8);
                 map = (Map<String, String>) JSON.parse(str);
             }
         } catch (Exception e) {
@@ -66,7 +69,7 @@ public abstract class BaseController {
 
     public String getUserId() {
         String id = parseJwtToken().get("id");
-        if (StringUtils.isEmpty(id)){
+        if (StringUtils.isEmpty(id)) {
             return "not find id";
         }
         return id;
@@ -74,7 +77,7 @@ public abstract class BaseController {
 
     public String getName() {
         String name = parseJwtToken().get("name");
-        if (StringUtils.isEmpty(name)){
+        if (StringUtils.isEmpty(name)) {
             return "not find name";
         }
         return name;
@@ -82,7 +85,7 @@ public abstract class BaseController {
 
     public String getUsername() {
         String username = parseJwtToken().get("user_name");
-        if (StringUtils.isEmpty(username)){
+        if (StringUtils.isEmpty(username)) {
             return "not find username";
         }
         return username;

@@ -130,6 +130,8 @@
 			f.FUSERNAME = #{FUSERNAME}
 		and
 			f.USERNAME = #{USERNAME}
+		and
+			f.ALLOW = 'yes'
 	</select>
 	
 	<!-- 列表 -->

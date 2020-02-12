@@ -35,7 +35,7 @@ public class StartWebsocketServer implements ApplicationRunner {
         try {
             //String infFilePath = PathUtil.getClasspath()+Const.SYSSET;
             String infFilePath=java.net.URLDecoder.decode(PathUtil.getClasspath()+ Const.SYSSET,"utf-8");//配置文件路径
-            String onlinePort = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "onlinePort", "8869");			//在线管理端口
+            String onlinePort = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "onlinePort", "8969");			//在线管理端口
             s = new OnlineChatServer(Integer.parseInt(onlinePort));
             s.start();
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class StartWebsocketServer implements ApplicationRunner {
         try {
             //String infFilePath = PathUtil.getClasspath()+ Const.SYSSET;
             String infFilePath=java.net.URLDecoder.decode(PathUtil.getClasspath()+ Const.SYSSET,"utf-8");//配置文件路径
-            String imPort = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "imPort", "8879");					//即时端口
+            String imPort = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "imPort", "8979");					//即时端口
             s = new ChatServer(Integer.parseInt(imPort));
             s.start();
         } catch (Exception e) {

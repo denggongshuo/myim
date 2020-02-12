@@ -41,18 +41,18 @@ public class HeadController extends BaseController {
 		UserEntity userEntity = userService.getUserByUserName(getUsername());
 		if(null != userEntity){
 			pd.put(Const.SESSION_USERNAME, userEntity.getUsername());
-			map.put("userPhoto",userEntity.getUserphotoUrl());//用户头像
+			map.put("userPhoto","/myim/"+userEntity.getUserphotoUrl());//用户头像
 			map.put("NAME", userEntity.getName());
 			map.put("USERNAME", userEntity.getUsername());
 
 			//String infFilePath = PathUtil.getClasspath()+Const.SYSSET;								//配置文件路径
 			String infFilePath=java.net.URLDecoder.decode(PathUtil.getClasspath()+ Const.SYSSET,"utf-8");//配置文件路径
 			
-			String onlineIp = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "onlineIp", "172.18.1.50");		//在线管理IP
+			String onlineIp = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "onlineIp", "172.18.1.85");		//在线管理IP
 			String onlinePort = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "onlinePort", "8869");			//在线管理端口
 			map.put("onlineAdress", onlineIp+":"+onlinePort);	//在线管理websocket地址
 			
-			String imIp = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "imIp", "172.18.1.50");				//即时聊天IP
+			String imIp = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "imIp", "172.18.1.85");				//即时聊天IP
 			String imPort = IniFileUtil.readCfgValue(infFilePath, "SysSet1", "imPort", "8879");					//即时聊天端口
 			map.put("wimadress", imIp+":"+imPort);				//即时聊天websocket地址
 			

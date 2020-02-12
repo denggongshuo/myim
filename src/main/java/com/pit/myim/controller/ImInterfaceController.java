@@ -26,7 +26,9 @@ import java.util.*;
 @RequestMapping("/iminterface")
 public class ImInterfaceController extends BaseController {
 
-    private final String http_root_path = "/upload/";
+    private final String http_root_path = "/myim/";
+
+
 
 
     @Autowired
@@ -102,7 +104,7 @@ public class ImInterfaceController extends BaseController {
                     Map<String, Object> fpd = new LinkedHashMap<String, Object>();
                     fpd.put("username", isGList.get(n).getString("name"));            //姓名
                     fpd.put("id", isGList.get(n).getString("fusername"));            //用户名
-                    fpd.put("avatar", null == isGList.get(n).get("photo2") ? "assets/images/user/avatar-2.jpg" : http_root_path + isGList.get(n).getString("photo2"));        //头像
+                    fpd.put("avatar", null == isGList.get(n).get("photo2") ? "assets/images/user/avatar-2.jpg" : isGList.get(n).getString("photo2"));        //头像
                     fpd.put("sign", null == isGList.get(n).get("autograph") ? "" : isGList.get(n).getString("autograph"));                                //个性签名
                     if (null != isGList.get(n).get("online") && "hide".equals(isGList.get(n).getString("online"))) {//好友在线状态设置为离线的(不管是否真实在线,都判定离线)
                         fpd.put("status", "offline");                                //离线状态
@@ -135,7 +137,7 @@ public class ImInterfaceController extends BaseController {
             Map<String, Object> nfpd = new LinkedHashMap<String, Object>();
             nfpd.put("username", noGList.get(n).getString("name"));        //姓名
             nfpd.put("id", noGList.get(n).getString("fusername"));        //用户名
-            nfpd.put("avatar", null == noGList.get(n).get("photo2") ? "assets/images/user/avatar-2.jpg" : http_root_path + noGList.get(n).getString("photo2"));        //头像
+            nfpd.put("avatar", null == noGList.get(n).get("photo2") ? "assets/images/user/avatar-2.jpg" : noGList.get(n).getString("photo2"));        //头像
             nfpd.put("sign", null == noGList.get(n).get("AUTOGRAPH") ? "" : noGList.get(n).getString("autograph"));                                //个性签名
             if (null != noGList.get(n).get("online") && "hide".equals(noGList.get(n).getString("online"))) {//好友在线状态设置为离线的(不管是否真实在线,都判定离线)
                 nfpd.put("status", "offline");                                //离线状态
@@ -339,7 +341,7 @@ public class ImInterfaceController extends BaseController {
                 Map<String, Object> umap = new LinkedHashMap<String, Object>();
                 umap.put("username", varList.get(i).getString("name"));    //姓名
                 umap.put("id", varList.get(i).getString("username"));    //用户名即id
-                umap.put("avatar", null == varList.get(i).get("photo2") ? "assets/images/user/avatar-2.jpg" : http_root_path + varList.get(i).getString("photo2"));    //头像
+                umap.put("avatar", null == varList.get(i).get("photo2") ? "assets/images/user/avatar-2.jpg" : varList.get(i).getString("photo2"));    //头像
                 umap.put("sign", varList.get(i).getString("autograph"));//个性签名
                 qlist.add(umap);
                 n++;
@@ -495,12 +497,12 @@ public class ImInterfaceController extends BaseController {
         } else {
             pd.put("FRIENDS_ID", UuidUtil.get32UUID());            //主键
             pd.put("CTIME", DateUtil.date2Str(new Date()));    //申请时间
-            pd.put("ALLOW", "yes");                        //是否允许
+            pd.put("ALLOW", "no");                        //是否允许
             pd.put("FGROUP_ID", "9999".equals(pd.getString("FGROUP_ID")) ? "" : pd.getString("FGROUP_ID"));    //分组, 9999 代表无分组
             pd.put("DTIME", "");                            //处理时间，刚添加等待对方处理，现在为空，处理的时候录入时间
             friendsService.save(pd);
             /*存入IM系统消息表中IM_SYSMSG*/
-		/*	pd.put("SYSMSG_ID", UuidUtil.get32UUID());				//主键
+			pd.put("SYSMSG_ID", UuidUtil.get32UUID());				//主键
 			pd.put("USERNAME", pd.getString("FUSERNAME"));		//接收者用户名
 			pd.put("FROMUSERNAME", getUsername());	//发送者用户名(即当前用户)
 			pd.put("CTIME", DateUtil.date2Str(new Date()));		//操作时间
@@ -511,7 +513,7 @@ public class ImInterfaceController extends BaseController {
 			pd.put("DTIME", "");								//完成时间
 			pd.put("QGROUP_ID", "");							//申请加群是有值
 			pd.put("DREAD", "0");								//阅读状态 0 未读
-			sysmsgService.save(pd);*/
+			sysmsgService.save(pd);
             result = "01";
         }
         map.put("result", result);

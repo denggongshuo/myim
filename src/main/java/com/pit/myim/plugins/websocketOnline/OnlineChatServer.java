@@ -1,5 +1,6 @@
 package com.pit.myim.plugins.websocketOnline;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.java_websocket.WebSocket;
 import org.java_websocket.WebSocketImpl;
@@ -16,6 +17,7 @@ import java.net.UnknownHostException;
  * 作者：FH Admin  3 13 596790
  * 官网：www.fhadmin.org
  */
+@Slf4j
 public class OnlineChatServer extends WebSocketServer{
 
 	public OnlineChatServer(int port) throws UnknownHostException {
@@ -32,7 +34,9 @@ public class OnlineChatServer extends WebSocketServer{
 	@Override
 	public void onMessage(WebSocket conn, String message){
 		message = message.toString();
+		log.debug("收到消息[{}]",message);
 		if(null != message && message.startsWith("[join]")){
+			log.debug("[{}]用户上线加入群聊",conn.getRemoteSocketAddress());
 			this.userjoin(message.replaceFirst("\\[join\\]", ""),conn);
 		}else if(null != message && message.startsWith("[goOut]")){
 			this.goOut(message.replaceFirst("\\[goOut\\]", ""));
@@ -185,7 +189,7 @@ public class OnlineChatServer extends WebSocketServer{
 	
 	/**
 	 * 有用户登录系统,加入在线列表
-	 * @param conn
+	 * @param user
 	 */
 	public void addUserToFhadmin(String user){
 		WebSocket conn =  OnlineChatServerPool.getFhadmin();
